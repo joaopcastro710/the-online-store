@@ -1,15 +1,23 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Miranda+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", serif;
+
+  --color-navy: #1b2a4a;
+  --color-navy-light: #2d3f63;
+  --color-cream: #f8f7f4;
+  --color-border: #e2e2e2;
+  --color-text-muted: #888888;
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+html, body {
+  @apply bg-cream text-navy;
+  font-family: var(--font-sans);
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+* {
+  box-sizing: border-box;
 }
