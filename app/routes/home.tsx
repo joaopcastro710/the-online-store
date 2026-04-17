@@ -6,7 +6,7 @@ import ProductCard from "../components/ProductCard"
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "The Online Store" },
-    { name: "description", content: "Browse our products" },
+    { name: "description", content: "Browse products" },
   ]
 }
 
