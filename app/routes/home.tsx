@@ -37,7 +37,7 @@ export default function Home() {
   const cats = Array.isArray(categories) ? categories : []
 
   return (
-    <main className="w-full px-6 py-8 flex gap-8">
+    <main className="max-w-8xl mx-auto px-12 py-8 flex gap-12">
       <div className="flex-1">
         <div className="flex items-center justify-between mb-6">
           <select
@@ -61,7 +61,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 gap-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
           {products.map((product: any) => (
             <ProductCard key={product.id} product={product} />
           ))}
