@@ -1,87 +1,86 @@
-# Welcome to React Router!
+# The Online Store
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+E-commerce website built with React Router v7 (Remix), TypeScript and TailWindCSS.
 
 ## Features
+- Homepage: product grid with possibility to sort, category filteringand pagination
+- Product detail page: full product information with "Add to Cart" functionality
+- Shopping Cart: view items, update quantities, remove products and see summary
+- Responsive design: optimized for both mobile and desktop
+- Server-side state: all data fetching handled via loaders and mutations via actions
+- Cookie-based cart: cart state persisted across sessions using cookie session
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Tech Stack
 
-## Getting Started
+- Framework: React Router v7 (sucessor to Remix v2)
+- Language: TypeScript
+- Styling: TailwindCSS
+- Icons: Lucide React
+- API: DummyJSON
 
-### Installation
+## Structure
 
-Install the dependencies:
+```
+app/
+├── components/
+│   ├── Header.tsx           # Global header 
+│   └── ProductCard.tsx      # Product card used in the homepage 
+├── lib/
+│   ├── api.ts               # DummyJSON API fetch functions
+│   └── cart.server.ts       # Cookie session storage for the cart
+├── routes/
+│   ├── home.tsx             # Homepage with products and features
+│   ├── products.$id.tsx     # Product detail page with "Add to Cart" action
+│   └── cart.tsx             # Shopping cart page with remove/update quantity
+├── app.css                  # Tailwind entry point and theme variables
+├── root.tsx                 # Root layout
+└── routes.ts                # Route configuration
+```
+---
+## Prerequisites
+
+- Node.js 20 or higher
+- npm
+
+## Installation
 
 ```bash
+git clone https://github.com/joaopcastro710/the-online-store.git
+cd the-online-store
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
+## Development
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+The application will be available at [http://localhost:5173](http://localhost:5173).
 
-## Building for Production
-
-Create a production build:
+### Build
 
 ```bash
 npm run build
+npm start
 ```
 
-## Deployment
+## Key Implementation Notes
 
-### Docker Deployment
+### URL as Source of Truth
 
-To build and run using Docker:
+Filters, sort, and pagination state live in the URL search params rather than in React State. When the user changes a filter or navigates pages, the browser navigates to a new URL, the loader runs again on the server and the page updates with fresh data. This approach provides shareable links, browser back/forward support and aligns with the React Router paradigm.
 
-```bash
-docker build -t my-app .
+### Loaders and Actions
 
-# Run the container
-docker run -p 3000:3000 my-app
-```
+- Loaders: handle all data fetching (read operations) on the server before the page is rendered
+- Actions: handle form submissions (write operations) — adding to cart, removing from cart, updating quantities
+- Forms use `<Form method="post">` for progressive enhancement
 
-The containerized application can be deployed to any platform that supports Docker, including:
+### Cart State
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
+The cart is stored in an HTTP-only cookie session, managed server-side via `createCookieSessionStorage`. This approach was chosen over `localStorage` because:
 
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+- The loader can read the cart before rendering the page
+- Works without JavaScript (progressive enhancement)
+- More aligned with the React Router/Remix paradigm
