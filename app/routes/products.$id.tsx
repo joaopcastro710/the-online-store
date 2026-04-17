@@ -1,6 +1,7 @@
-import { useLoaderData } from "react-router"
+import { useLoaderData, Form, redirect } from "react-router"
 import type { Route } from "./+types/products.$id"
 import { fetchProductById } from "../lib/api"
+import { addToCart } from "../lib/cart.server"
 
 export function meta({ data }: Route.MetaArgs) {
   return [
@@ -12,6 +13,21 @@ export async function loader({ params }: Route.LoaderArgs) {
   const id = Number(params.id)
   const product = await fetchProductById(id)
   return { product }
+}
+export async function action({ request, params }: Route.ActionArgs) {
+  const id = Number(params.id)
+  const product = await fetchProductById(id)
+  
+  const cookie = await addToCart(request, {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    thumbnail: product.thumbnail,
+  })
+  
+  return redirect("/cart", {
+    headers: { "Set-Cookie": cookie },
+  })
 }
 
 export default function ProductDetail() {
@@ -35,9 +51,11 @@ export default function ProductDetail() {
           <h1 className="text-2xl font-bold text-[#1b2a4a]">{product.title}</h1>
           <p className="text-2xl font-bold text-[#1b2a4a] mt-1">${product.price}</p>
           
-          <button className="w-full bg-[#1b2a4a] text-white py-2.5 mt-4 text-sm hover:bg-[#2d3f63] ">
-            Add to Cart
-          </button>
+          <Form method="post">
+            <button type="submit" className="w-full bg-[#1b2a4a] text-white py-2.5 mt-4 text-sm hover:bg-[#2d3f63]">
+              Add to Cart
+            </button>
+          </Form>
 
           <div className="border-t border-[#e2e2e2] mt-6 pt-4">
             <p className="text-sm font-semibold text-[#1b2a4a] mb-2">Product Details</p>

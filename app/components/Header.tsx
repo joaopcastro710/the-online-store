@@ -5,7 +5,7 @@ export default function Header() {
     return(
         <header className="border-b border-[#e2e2e2] bg-white">
             <div className="w-full px-6 py-4 grid grid-cols-[2fr_1fr_2fr] items-center">
-                <Link to="/" className="font-sans font-bold text-2xl tracking-[0.05em] uppercase text-[#1b2a4a]">
+                <Link to="/" className="font-sans font-bold text-sm md:text-2x1 tracking-[0.05em] uppercase text-[#1b2a4a] whitespace-nowrap">
                     The Online Store
                 </Link>  
 
